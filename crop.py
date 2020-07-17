@@ -18,16 +18,15 @@ def exec(img_path):
     img = read_image(img_path).convert("RGBA")
     back = Image.new('RGB', (white_back_x, white_back_y), 'white')
 
+    size = white_back_x, white_back_y
+    img.thumbnail(size, Image.ANTIALIAS)
     img_x, img_y = img.size
-    # print("PASS")
 
     if img_x > img_y:
         paste_y = int((white_back_y - img_y) / 2)
     else:
         paste_x = int((white_back_x - img_x) / 2)
 
-    size = white_back_x, white_back_y
-    img.thumbnail(size, Image.ANTIALIAS)
     back.paste(im=img, box=(paste_x, paste_y), mask=img)
 
     back.save("output" + img_path[5:])
