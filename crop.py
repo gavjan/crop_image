@@ -1,5 +1,6 @@
 import glob
 from PIL import Image, ImageFont, ImageDraw, ImageOps
+from multiprocessing import Pool, cpu_count
 
 
 def read_image(path):
@@ -10,7 +11,7 @@ def read_image(path):
         print("[ERROR] error opening " + path)
 
 
-def exec(img_path):
+def exec(img_path, num):
     white_back_x = 600
     white_back_y = 600
     paste_x = paste_y = 0
@@ -34,5 +35,12 @@ def exec(img_path):
 
 imgs = glob.glob("input/*.png")
 
+pool = Pool(processes=(cpu_count()))
 for i in imgs:
-    exec(i)
+    pool.apply_async(exec, args=(i, 1))
+pool.close()
+pool.join()
+
+## Sequential
+# for i in imgs:
+#    exec(i, 1)

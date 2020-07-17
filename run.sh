@@ -7,4 +7,15 @@ if [ ! -d output ]; then
 fi
 rm output/* 2> /dev/null
 
+
+ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | parallel convert input/{} input/{.}.png
+
+## Sequential
+#ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | while read line; do
+#  line_no_extension="${line%%.*}"
+#  convert input/"$line" input/"$line_no_extension".png
+#done
+
+rm input/*.jpg input/*.jpeg input/*.webp 2> /dev/null
+
 python3 crop.py
