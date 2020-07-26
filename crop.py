@@ -33,7 +33,7 @@ def exec(img_path, num):
     back.save("output" + img_path[5:])
 
 
-imgs = glob.glob("input/*.png")
+imgs = glob.glob("input/*.jpg")
 
 pool = Pool(processes=(cpu_count()))
 for i in imgs:

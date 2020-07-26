@@ -8,7 +8,7 @@ fi
 rm output/* 2> /dev/null
 
 
-ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | parallel convert input/{} input/{.}.png
+ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | parallel convert input/{} input/{.}.jpg
 
 ## Sequential
 #ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | while read line; do
@@ -16,6 +16,6 @@ ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | parallel convert input/{} input
 #  convert input/"$line" input/"$line_no_extension".png
 #done
 
-rm input/*.jpg input/*.jpeg input/*.webp 2> /dev/null
+rm input/*.png input/*.webp 2> /dev/null
 
 python3 crop.py
