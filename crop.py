@@ -17,15 +17,20 @@ def exec(img_path, num):
     paste_x = paste_y = 0
 
     img = read_image(img_path).convert("RGBA")
-    back = Image.new('RGB', (white_back_x, white_back_y), 'white')
+    back = Image.new(mode='RGB', size=(white_back_x, white_back_y), color=img.getpixel((0, 0)))
 
     size = white_back_x, white_back_y
     img.thumbnail(size, Image.ANTIALIAS)
     img_x, img_y = img.size
 
+    if img_x < white_back_x and img_y < white_back_y:
+        scaler = white_back_y / float(img.size[1])
+        img_x, img_y = new_size = tuple([int(x * scaler) for x in img.size])
+        img = img.resize(new_size)
+
     if img_x > img_y:
         paste_y = int((white_back_y - img_y) / 2)
-    else:
+    elif img_x < img_y:
         paste_x = int((white_back_x - img_x) / 2)
 
     back.paste(im=img, box=(paste_x, paste_y), mask=img)
