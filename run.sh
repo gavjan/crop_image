@@ -8,7 +8,7 @@ fi
 rm output/* 2> /dev/null
 
 
-ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | parallel convert input/{} input/{.}.jpg
+ls -1 input | grep -E -o ".*\.(webp|png)" | parallel convert input/{} input/{.}.jpg
 
 ## Sequential
 #ls -1 input | grep -E -o ".*\.(webp|jpeg|jpg)" | while read line; do
