@@ -1,3 +1,2 @@
 # crop_image
-Quick Script to crop images in dir into a rectangle.
-
+Quick script that converts images in dir and then fits them in a rectangle.
