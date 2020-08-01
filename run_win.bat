@@ -1,1 +1,1 @@
-bash run.sh
+bash src/run.sh
