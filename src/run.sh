@@ -8,10 +8,10 @@ fi
 rm output/* 2> /dev/null
 
 
-ls -1 input | grep -E -o ".*\.(webp|jpeg|png)" | parallel convert input/{} input/{.}.jpg
+ls -1 input | grep -E -o ".*\.(webp|jpeg|png|jfif)" | parallel convert input/{} input/{.}.jpg
 
 ## Sequential
-#ls -1 ../input | grep -E -o ".*\.(webp|jpeg|png)" | while read line; do
+#ls -1 ../input | grep -E -o ".*\.(webp|jpeg|png|jfif)" | while read line; do
 #  line_no_extension="${line%%.*}"
 #  convert ../input/"$line" ../input/"$line_no_extension".jpg
 #done
