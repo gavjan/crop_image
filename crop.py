@@ -69,6 +69,7 @@ def crop(img_path, num):
 
     back.save("output" + img_path[5:])
 
+
 if __name__ == '__main__':
     check_folders()
     images = get_images()
@@ -81,6 +82,5 @@ if __name__ == '__main__':
     pool.join()
 
     # Sequential
-    #for i in images:
+    # for i in images:
     #   crop(i, 1)
-
