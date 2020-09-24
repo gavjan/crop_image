@@ -85,5 +85,5 @@ if __name__ == '__main__':
     pool.join()
 
     # Sequential
-    #for i in images:
-    #  crop(i, 1)
+    # for i in images:
+    #     crop(i, 1)
