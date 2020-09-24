@@ -10,7 +10,8 @@ import multiprocessing
 def err_exit(*args, **kwargs):
     print("[ERROR] ", end="", file=sys.stderr)
     print(*args, file=sys.stderr, **kwargs)
-    input("Press Enter to exit...")
+    print("\nPress Enter to exit...", file=sys.stderr)
+    input()
     exit(1)
 
 
