@@ -4,6 +4,7 @@ import sys
 
 from PIL import Image
 from multiprocessing import Pool, cpu_count
+import multiprocessing
 
 
 def err_exit(*args, **kwargs):
@@ -71,16 +72,18 @@ def crop(img_path, num):
 
 
 if __name__ == '__main__':
+    # On Windows calling this function is necessary.
+    if sys.platform.startswith('win'):
+        multiprocessing.freeze_support()
     check_folders()
     images = get_images()
 
     pool = Pool(processes=(cpu_count()))
     for i in images:
         pool.apply_async(crop, args=(i, 1))
-
     pool.close()
     pool.join()
 
     # Sequential
-    # for i in images:
-    #   crop(i, 1)
+    #for i in images:
+    #  crop(i, 1)
