@@ -71,10 +71,7 @@ def crop(img_path, num):
     back.save("output" + img_path[5:])
 
 
-if __name__ == '__main__':
-    # On Windows calling this function is necessary.
-    if sys.platform.startswith('win'):
-        multiprocessing.freeze_support()
+def crop_all():
     check_folders()
     images = get_images()
 
@@ -87,3 +84,10 @@ if __name__ == '__main__':
     # Sequential
     # for i in images:
     #     crop(i, 1)
+
+
+if __name__ == '__main__':
+    # On Windows calling this function is necessary.
+    if sys.platform.startswith('win'):
+        multiprocessing.freeze_support()
+    crop_all()
