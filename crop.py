@@ -69,16 +69,18 @@ def crop(img_path, num):
 
     back.save("output" + img_path[5:])
 
+if __name__ == '__main__':
+    check_folders()
+    images = get_images()
 
-check_folders()
-images = get_images()
+    pool = Pool(processes=(cpu_count()))
+    for i in images:
+        pool.apply_async(crop, args=(i, 1))
 
-pool = Pool(processes=(cpu_count()))
-for i in images:
-    pool.apply_async(crop, args=(i, 1))
-pool.close()
-pool.join()
+    pool.close()
+    pool.join()
 
-# Sequential
-# for i in imgs:
-#    exec(i, 1)
+    # Sequential
+    #for i in images:
+    #   crop(i, 1)
+
