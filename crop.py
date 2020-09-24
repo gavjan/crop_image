@@ -1,17 +1,46 @@
 import glob
-from PIL import Image, ImageFont, ImageDraw, ImageOps
+import os
+import sys
+
+from PIL import Image
 from multiprocessing import Pool, cpu_count
+
+
+def err_exit(*args, **kwargs):
+    print("[ERROR] ", end="", file=sys.stderr)
+    print(*args, file=sys.stderr, **kwargs)
+    input("Press Enter to exit...")
+    exit(1)
+
+
+def check_folders():
+    if not os.path.exists("input"):
+        err_exit("input folder is missing")
+
+    if not os.path.exists("output"):
+        os.mkdir("output")
+
+    for f in glob.glob("output/*"):
+        os.remove(f)
+
+
+def get_images():
+    types = ("input/*.jpg", "input/*.jpeg", "input/*.png", "input/*.webp", "input/*.jfif")
+    img_arr = []
+    for files in types:
+        img_arr.extend(glob.glob(files))
+    return img_arr
 
 
 def read_image(path):
     try:
         opened_image = Image.open(path)
         return opened_image
-    except Exception as e:
-        print("[ERROR] error opening " + path)
+    except Exception:
+        err_exit("[ERROR] error opening " + path)
 
 
-def exec(img_path, num):
+def crop(img_path, num):
     white_back_x = 600
     white_back_y = 600
     paste_x = paste_y = 0
@@ -41,11 +70,12 @@ def exec(img_path, num):
     back.save("output" + img_path[5:])
 
 
-imgs = glob.glob("input/*.jpg")
+check_folders()
+images = get_images()
 
 pool = Pool(processes=(cpu_count()))
-for i in imgs:
-    pool.apply_async(exec, args=(i, 1))
+for i in images:
+    pool.apply_async(crop, args=(i, 1))
 pool.close()
 pool.join()
 
