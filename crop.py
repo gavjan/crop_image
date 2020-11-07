@@ -69,7 +69,8 @@ def crop(img_path, num):
 
     back.paste(im=img, box=(paste_x, paste_y), mask=img)
 
-    back.save("output" + img_path[5:])
+    file_name = os.path.splitext(img_path)[-2].lower()
+    back.save("output" + file_name[len("input"):] + ".jpg")
 
 
 def crop_all():
