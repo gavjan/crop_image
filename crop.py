@@ -1,11 +1,8 @@
 import glob
 import os
 import sys
-
-from PIL import Image
-from multiprocessing import Pool, cpu_count
-import multiprocessing
-
+from PIL import Image, ImageFile
+import pillow_avif
 
 def err_exit(*args, **kwargs):
     print("[ERROR] ", end="", file=sys.stderr)
@@ -27,7 +24,7 @@ def check_folders():
 
 
 def get_images():
-    types = ("input/*.jpg", "input/*.jpeg", "input/*.png", "input/*.webp", "input/*.jfif")
+    types = ("input/*.jpg", "input/*.jpeg", "input/*.png", "input/*.webp", "input/*.jfif", "input/*.avif")
     img_arr = []
     for files in types:
         img_arr.extend(glob.glob(files))
@@ -39,10 +36,10 @@ def read_image(path):
         opened_image = Image.open(path)
         return opened_image
     except Exception:
-        err_exit("[ERROR] error opening " + path)
+        err_exit("error opening " + path)
 
 
-def crop(img_path, num):
+def crop(img_path):
     white_back_x = 600
     white_back_y = 600
     paste_x = paste_y = 0
@@ -51,7 +48,7 @@ def crop(img_path, num):
     back = Image.new(mode='RGB', size=(white_back_x, white_back_y), color=img.getpixel((0, 0)))
 
     size = white_back_x, white_back_y
-    img.thumbnail(size, Image.ANTIALIAS)
+    img.thumbnail(size, Image.LANCZOS)
     img_x, img_y = img.size
 
     if img_x > img_y:
@@ -73,23 +70,11 @@ def crop(img_path, num):
     back.save("output" + file_name[len("input"):] + ".jpg")
 
 
-def crop_all():
+def main():
     check_folders()
-    images = get_images()
-
-    pool = Pool(processes=(cpu_count()))
-    for i in images:
-        pool.apply_async(crop, args=(i, 1))
-    pool.close()
-    pool.join()
-
-    # Sequential
-    # for i in images:
-    #     crop(i, 1)
+    for i in get_images():
+        crop(i)
 
 
 if __name__ == '__main__':
-    # On Windows calling this function is necessary.
-    if sys.platform.startswith('win'):
-        multiprocessing.freeze_support()
-    crop_all()
+    main()
