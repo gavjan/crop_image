@@ -24,11 +24,7 @@ def check_folders():
 
 
 def get_images():
-    types = ("input/*.jpg", "input/*.jpeg", "input/*.png", "input/*.webp", "input/*.jfif", "input/*.avif")
-    img_arr = []
-    for files in types:
-        img_arr.extend(glob.glob(files))
-    return img_arr
+    return glob.glob("input/*")
 
 
 def read_image(path):
