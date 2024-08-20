@@ -1,7 +1,7 @@
 import glob
 import os
 import sys
-from PIL import Image, ImageFile
+from PIL import Image
 import pillow_avif
 
 def err_exit(*args, **kwargs):
@@ -28,6 +28,7 @@ def get_images():
 
 
 def read_image(path):
+    opened_image = Image.open(path)
     try:
         opened_image = Image.open(path)
         return opened_image
@@ -67,6 +68,12 @@ def crop(img_path):
 
 
 def main():
+
+    if getattr(sys, 'frozen', False): # If the application is frozen (i.e., compiled with PyInstaller)
+        app_path = os.path.dirname(sys.executable)
+        os.chdir(app_path)
+    print("CWD=" + os.getcwd())
+
     check_folders()
     for i in get_images():
         crop(i)
