@@ -2,7 +2,12 @@ import glob
 import os
 import sys
 from PIL import Image
-import pillow_avif
+import platform
+
+MAC_BINARY = platform.system() == "Darwin" and getattr(sys, 'frozen', False)
+if not MAC_BINARY:
+    import pillow_avif
+
 
 def err_exit(*args, **kwargs):
     print("[ERROR] ", end="", file=sys.stderr)
@@ -28,7 +33,6 @@ def get_images():
 
 
 def read_image(path):
-    opened_image = Image.open(path)
     try:
         opened_image = Image.open(path)
         return opened_image
@@ -68,12 +72,10 @@ def crop(img_path):
 
 
 def main():
-
-    if getattr(sys, 'frozen', False): # If the application is frozen (i.e., compiled with PyInstaller)
+    if MAC_BINARY:
         app_path = os.path.dirname(sys.executable)
         os.chdir(app_path)
-    print("CWD=" + os.getcwd())
-
+        print("CWD=" + os.getcwd())
     check_folders()
     for i in get_images():
         crop(i)
